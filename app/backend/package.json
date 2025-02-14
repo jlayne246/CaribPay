@@ -4,25 +4,34 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/server.js",
+    "start": "node dist/startapp.js",
+    "start:dev": "cross-env DB_TYPE=mysql && ncp ./env/.env.development ../../framework/.env && concurrently \"npm run dev --prefix ../../framework\" \"nodemon --watch ../../framework/dist --ext js,ts --exec ts-node src/startapp.ts\"",
+    "start:prod": "cross-env DB_TYPE=postgres ncp ./env/.env.development .env && NODE_ENV=production ts-node src/index.ts",
     "build": "tsc",
-    "dev": "nodemon --watch ../../framework/dist --ext js,ts --exec ts-node src/server.ts"
+    "dev": "concurrently \"npm run dev --prefix ../../framework\" \"nodemon --watch ../../framework/dist --ext js,ts --exec ts-node src/startapp.ts\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.6",
-    "qrcode": "^1.5.4"
+    "mysql2": "^3.12.0",
+    "pg": "^8.13.3",
+    "qrcode": "^1.5.4",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^22.13.1",
     "@types/qrcode": "^1.5.5",
+    "cross-env": "^7.0.3",
+    "ncp": "^2.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   }

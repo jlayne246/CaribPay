@@ -1,3 +1,4 @@
 import logger from './utils/logger';
-export { logger };
-export declare function initialiseFramework(): void;
+import * as db_mod from './config/db';
+import * as env_mod from './config/env';
+export { logger, db_mod, env_mod };

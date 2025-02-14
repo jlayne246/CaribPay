@@ -1,26 +1,8 @@
-// export {default as logger} from './utils/logger';
-
-// import {logger} from './index';
-
+// These lines import methods and objects from the utilities and config files into the starting point of the framework.
 import logger from './utils/logger';
-import { startup } from './config/startup';
+import * as db_mod from './config/db';
+import * as env_mod from './config/env';
 
-export {logger};
-
-logger.info("Framework building.");
-
-// export function initialiseFramework() {
-//     console.log('Framework Initialised!');
-//     logger.info("Framework initialised.");
-// }
-
-const startApp = async () => {
-    await startup(); // Ensure DB is connected before starting
-    console.log('🌍 App is now ready to accept requests!');
-};
-
-startApp().catch((err) => {
-    console.error('❌ Critical Startup Error:', err);
-    process.exit(1);
-});
+// This exports the functions and objects imported from the subdirectories of the framework as members of the framework package which may be received in the app as an npm package, whereby these members can be called using this syntax "import {x} from 'framework'".
+export {logger, db_mod, env_mod};
 

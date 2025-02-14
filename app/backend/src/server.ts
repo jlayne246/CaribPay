@@ -1,16 +1,14 @@
-import mongoose from "mongoose";
-import app from "./app";
-import {logger} from 'framework';
- 
-const PORT = process.env.PORT || 5000;
+import { createApp } from './app';
+import { env_mod } from 'framework';
 
-mongoose.connect('mongodb://localhost:27017/caribpay-db')
-    .then(() => {
-        console.log("Connected to MongoDB");
-        logger.info("Database running!");
-        app.listen(PORT, () => {
-            console.log(`Server running on http://localhost:${PORT}/api`);
-            logger.info("Backend running!");
-        })
-    })
-    .catch((err) => console.error('DB Connection Error: ', err));
+const PORT = env_mod.env.PORT || 3000;
+
+const startServer = () => {
+    const app = createApp();
+
+    app.listen(PORT, () => {
+        console.log(`✅ Server is running on http://localhost:${PORT}`);
+    });
+};
+
+export { startServer };
