@@ -12,7 +12,7 @@ const RETRY_DELAY = 2000; // Sets the retry delay to 2 seconds
 
 const isPostgres = env.DB_TYPE === "postgres"; // Sets isPostgres to true if env.DB_TYPE is postgres and false otherwise
 
-/* 
+/**
     << initDB() >>
 
     Summary: This function initializes the database and TypeORM connections
@@ -110,7 +110,7 @@ const initDb = async () => {
     }
 };
 
-/* 
+/**
     << closeDB() >>
 
     Summary: This function closes the database connection on shutdown
@@ -146,7 +146,7 @@ const closeDb = async () => {
     }
 };
 
-/* 
+/**
     << query() >>
 
     Summary: This function acts as a wrapper function to log queries
