@@ -127,24 +127,42 @@ const initDb = async () => {
 
 */
 const closeDb = async () => {
-    if (db) {
-        if (isPostgres) {
-            await (db as Pool).end();
-        } else {
-            await (db as MySQLPool).end();
+    if (db) { // If there is a DB connection active...
+        if (isPostgres) { // and if that DB connection is PostgreSQL...
+            await (db as Pool).end(); // end the connection
+        } else { // otherwise, and it is MySQL...
+            await (db as MySQLPool).end(); // End the connection
         }
         console.log("🔌 Database connection closed.");
         logger.info("🔌 Database connection closed.");
     }
 
-    if (typeOrmDataSource) {
-        await typeOrmDataSource.destroy();
+    if (typeOrmDataSource) { // If there is an active TypeORM connection...
+        await typeOrmDataSource.destroy(); // End the connection
         console.log('🔌 TypeORM connection closed.');
         logger.info('🔌 TypeORM connection closed.');
     }
 };
 
-// Wrapper function to log queries
+/* 
+    << query() >>
+
+    Summary: This function acts as a wrapper function to log queries
+    Type: async
+    Input Parameters: 
+    - text: [string] => This holds the text or template of the query
+    - params: [any or undefined] => This holds any parameters for the query
+    Return Value: nil
+    Dependencies:
+    - logger: To log system events within the initialization process.
+    - db: To provide a base object for the database connection
+    - typeOrmDataSource: To access the TypeORM connection
+    Line Calls: 
+    - 132, 134 => db.end()
+    - 141 => typeOrmDataSource.destroy()
+    Usage Example:
+
+*/
 export const query = async (text: string, params?: any[]) => {
     try {
         console.log(`📡 Executing Query: ${text} ${params ? JSON.stringify(params) : ""}`);
