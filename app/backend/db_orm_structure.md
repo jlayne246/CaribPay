@@ -7,7 +7,7 @@
 /backend
   ├── src
   │   ├── entities
-  │   │   └── User.ts (TypeORM entity)
+  │   │   └── User.ts (Model class & TypeORM entity)
   │   ├── services
   │   │   └── UserService.ts (Using TypeORM to manage data)
   │   └── index.ts (App entry point where TypeORM is initialized)
