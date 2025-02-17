@@ -16,7 +16,8 @@ const isPostgres = env.DB_TYPE === "postgres"; // Sets isPostgres to true if env
     << initDB() >>
 
     Summary: This function initializes the database and TypeORM connections
-    Type: async
+    Async: true
+    Visibility: external => Exported for use in other functions/modules
     Input Parameters: nil
     Return Value: nil
     Dependencies:
@@ -113,7 +114,8 @@ const initDb = async () => {
     << closeDB() >>
 
     Summary: This function closes the database connection on shutdown
-    Type: async
+    Async: true
+    Visibility: external => Exported for use in other functions/modules
     Input Parameters: nil
     Return Value: nil
     Dependencies:
@@ -148,7 +150,8 @@ const closeDb = async () => {
     << query() >>
 
     Summary: This function acts as a wrapper function to log queries
-    Type: async
+    Async: true
+    Visibility: external => Exported for use in other functions/modules
     Input Parameters: 
     - text: [string] => This holds the text or template of the query
     - params: [any or undefined] => This holds any parameters for the query
@@ -164,21 +167,21 @@ const closeDb = async () => {
 
 */
 export const query = async (text: string, params?: any[]) => {
-    try {
-        console.log(`📡 Executing Query: ${text} ${params ? JSON.stringify(params) : ""}`);
-        logger.info(`📡 Executing Query: ${text} ${params ? JSON.stringify(params) : ""}`);
+    try { // This code is attempted as a unit
+        console.log(`📡 Executing Query: ${text} ${params ? JSON.stringify(params) : ""}`); // Logs the query in the console
+        logger.info(`📡 Executing Query: ${text} ${params ? JSON.stringify(params) : ""}`); // Logs the query in the system logs
 
-        if (isPostgres) {
-            return await (db as Pool).query(text, params);
+        if (isPostgres) { // If the DB is PostgreSQL 
+            return await (db as Pool).query(text, params); // Returns rhe query result object of the PostgreSQL query
         } else {
             const [rows] = await (db as MySQLPool).query(text, params);
-            return rows;
+            return rows; // Returns the query result object of the MySQL query
         }
-    } catch (error) {
+    } catch (error) { // If there is an error... logs the errors in console and system logs
         console.error("❌ Query Error:", error);
         logger.error(`❌ Query Error: ${error}`);
-        throw error;
+        throw error; // Throws the received error
     }
 };
 
-export { db, typeOrmDataSource, initDb, closeDb };
+export { db, typeOrmDataSource, initDb, closeDb }; // Exports the database object (db), TypeORM connection object (typeOrmDataSource), database initialize function (initDb), and the database closure function (closeDb).
